@@ -394,6 +394,16 @@
 [[maybe_unused]] void QWidget_setWindowFlag(void *widget, int flag, bool on) {
     static_cast<QliftWidget *>(widget)->setWindowFlag(static_cast<Qt::WindowType>(flag), on);
 }
+[[maybe_unused]] void QWidget_raise(void * widget) {
+    static_cast<QliftWidget *>(widget)->raise();
+}
+[[maybe_unused]] void QWidget_lower(void * widget) {
+    static_cast<QliftWidget *>(widget)->lower();
+}
+[[maybe_unused]] void QWidget_stackUnder(void * widget, void * w) {
+    static_cast<QliftWidget *>(widget)->stackUnder(static_cast<QWidget *>(w));
+}
+
 
 W_OBJECT_IMPL(QliftWidget)
 

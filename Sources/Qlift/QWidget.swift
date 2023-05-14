@@ -405,6 +405,18 @@ open class QWidget: QObject {
     public func setWindowFlag(_ flag: Qt.WindowFlags, on: Bool = true) {
         QWidget_setWindowFlag(ptr, flag.rawValue, on)
     }
+    
+    public func raise() {
+        QWidget_raise(ptr)
+    }
+    
+    public func lower() {
+        QWidget_lower(ptr)
+    }
+    
+    public func stackUnder(_ widget: QWidget) {
+        QWidget_stackUnder(ptr, widget.ptr)
+    }
 }
 
 extension QWidget {

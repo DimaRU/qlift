@@ -89,6 +89,9 @@ LIBRARY_API void QWidget_setWindowIconText(void * widget, const char *text);
 LIBRARY_API CQString QWidget_windowIconText(void * widget);
 LIBRARY_API int QWidget_x(void * widget);
 LIBRARY_API int QWidget_y(void * widget);
+LIBRARY_API void QWidget_raise(void * widget);
+LIBRARY_API void QWidget_lower(void * widget);
+LIBRARY_API void QWidget_stackUnder(void * widget, void * w);
 
 LIBRARY_API void QWidget_saveSwiftObject(void *widget, void *swiftObject);
 LIBRARY_API void QWidget_setEventFunctor(void *widget, bool (*event_Functor)(void *, CQTEventType, void *));
