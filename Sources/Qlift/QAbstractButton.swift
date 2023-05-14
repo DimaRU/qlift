@@ -56,6 +56,29 @@ open class QAbstractButton: QWidget {
         connectClickedHook(receiver: receiver)
     }
 
+    public class Clicked {
+        let ptr: UnsafeMutableRawPointer
+        var callback: ((Bool) -> Void)?
+        
+        init(ptr: UnsafeMutableRawPointer) {
+            self.ptr = ptr
+        }
+        
+        public func connect<T: AnyObject, R: Any>(receiver: QObject? = nil, target: T, to slot: @escaping SlotVoid<T, R>) {
+            callback = { [weak target] _ in
+                if let target = target { _ = slot(target)() }
+            }
+
+            QAbstractButton_clicked_connect(self.ptr, receiver?.ptr ?? self.ptr) { raw, checked in
+                let _self = Unmanaged<Clicked>.fromOpaque(raw).takeUnretainedValue()
+                _self.callback?(checked)
+            }
+
+//            connectClickedHook(receiver: receiver)
+        }
+
+    }
+    
     open func connectClicked<T: AnyObject, R: Any>(receiver: QObject? = nil, target: T, to slot: @escaping SlotVoid<T, R>) {
         self.clickedCallback = { [weak target] _ in
             if let target = target { _ = slot(target)() }
