@@ -38,6 +38,11 @@ open class QObject {
         ptr = nil
     }
     
+    /// True if Qt object already deleted
+    public var isDeleted:  Bool {
+        self.ptr == nil
+    }
+    
     func checkDeleteQtObj() {
         if self.ptr != nil {
             QObject_clearSwiftObject(self.ptr)
