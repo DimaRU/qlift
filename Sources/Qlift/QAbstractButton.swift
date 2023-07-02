@@ -49,11 +49,14 @@ open class QAbstractButton: QWidget {
         set { QAbstractButton_setDown(ptr, newValue) }
     }
 
-    open func connectClicked<T: AnyObject, R: Any>(receiver: QObject? = nil, target: T, to slot: @escaping Slot<T, Bool, R>) {
+    open func connectClicked<T: AnyObject, R: Any>(receiver: QObject? = nil, type: Qt.ConnectionType = .AutoConnection, target: T, to slot: @escaping Slot<T, Bool, R>) {
         self.clickedCallback = { [weak target] in
             if let target = target { _ = slot(target)($0) }
         }
-        connectClickedHook(receiver: receiver)
+        QAbstractButton_clicked_connect(self.ptr, (receiver ?? self).ptr, Unmanaged.passUnretained(self).toOpaque(), type.rawValue) { raw, checked in
+            let _self = Unmanaged<QAbstractButton>.fromOpaque(raw).takeUnretainedValue()
+            _self.clickedCallback?(checked)
+        }
     }
 
     public class Clicked {
@@ -64,35 +67,32 @@ open class QAbstractButton: QWidget {
             self.ptr = ptr
         }
         
-        public func connect<T: AnyObject, R: Any>(receiver: QObject? = nil, target: T, to slot: @escaping SlotVoid<T, R>) {
+        public func connect<T:QObject, R: Any>(receiver: QObject? = nil, type: Qt.ConnectionType = .AutoConnection, target: T, to slot: @escaping SlotVoid<T, R>) {
             callback = { [weak target] _ in
-                if let target = target { _ = slot(target)() }
+                if let target { _ = slot(target)() }
             }
 
-            QAbstractButton_clicked_connect(self.ptr, receiver?.ptr ?? self.ptr) { raw, checked in
+            let rawSelf = Unmanaged.passUnretained(self).toOpaque()
+            QAbstractButton_clicked_connect(self.ptr, receiver?.ptr ?? self.ptr, rawSelf, type.rawValue) { raw, checked in
                 let _self = Unmanaged<Clicked>.fromOpaque(raw).takeUnretainedValue()
                 _self.callback?(checked)
             }
-
-//            connectClickedHook(receiver: receiver)
         }
-
+        
+        public func disconnect(receiver: QObject? = nil) {
+            QAbstractButton_clicked_disconnect(self.ptr, receiver?.ptr ?? self.ptr)
+        }
     }
     
-    open func connectClicked<T: AnyObject, R: Any>(receiver: QObject? = nil, target: T, to slot: @escaping SlotVoid<T, R>) {
+    open func connectClicked<T: AnyObject, R: Any>(receiver: QObject? = nil, type: Qt.ConnectionType = .AutoConnection, target: T, to slot: @escaping SlotVoid<T, R>) {
         self.clickedCallback = { [weak target] _ in
             if let target = target { _ = slot(target)() }
         }
-        connectClickedHook(receiver: receiver)
-    }
-
-    private func connectClickedHook(receiver: QObject?) {
-        QAbstractButton_clicked_connect(self.ptr, (receiver ?? self).ptr) { raw, checked in
+        QAbstractButton_clicked_connect(self.ptr, (receiver ?? self).ptr, Unmanaged.passUnretained(self).toOpaque(), type.rawValue) { raw, checked in
             let _self = Unmanaged<QAbstractButton>.fromOpaque(raw).takeUnretainedValue()
             _self.clickedCallback?(checked)
         }
     }
-
 
     open func connectToggled<T: AnyObject, R: Any>(receiver: QObject? = nil, target: T, to slot: @escaping Slot<T, Bool, R>) {
         self.toggledCallback = { [weak target] in

@@ -437,4 +437,13 @@ public struct Qt {
         public static let TouchPointStationary = TouchPointState(rawValue: 0x04)
         public static let TouchPointReleased = TouchPointState(rawValue: 0x08)
     }
+    
+    public enum ConnectionType: UInt32 {
+        case AutoConnection = 0
+        case DirectConnection = 1
+        case QueuedConnection = 2
+        case BlockingQueuedConnection = 3
+        case UniqueConnection = 128
+        case SingleShotConnection = 256
+    }
 }
