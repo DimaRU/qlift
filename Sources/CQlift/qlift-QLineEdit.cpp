@@ -171,8 +171,8 @@ void QLineEdit_textEditedEvent_Override(void *lineEdit, void *context, void (*mo
     return static_cast<QLineEdit*>(lineEdit)->selectionStart();
 }
 [[maybe_unused]] void *QLineEdit_textMargins(void *lineEdit) {
-    QMargins m = static_cast<QLineEdit*>(lineEdit)->textMargins();
-    return new QMargins(m.left(), m.top(), m.right(), m.bottom());
+    auto m = static_cast<QLineEdit*>(lineEdit)->textMargins();
+    return new QMargins{ m };
 }
 
 [[maybe_unused]] void *QLineEdit_addAction(void *lineEdit, const void *icon, int position) {
@@ -214,9 +214,9 @@ void QLineEdit_textEditedEvent_Override(void *lineEdit, void *context, void (*mo
 }
 
 [[maybe_unused]] void QLineEdit_returnPressed_connect(void *lineEdit,
-                                                    void *receiver,
-                                                    void *context,
-                                                    void (*slot_ptr)(void*)) {
+                                                      void *receiver,
+                                                      void *context,
+                                                      void (*slot_ptr)(void*)) {
     QObject::connect(
                      static_cast<QLineEdit*>(lineEdit),
                      &QLineEdit::returnPressed,
@@ -242,9 +242,9 @@ void QLineEdit_textEditedEvent_Override(void *lineEdit, void *context, void (*mo
 }
 
 [[maybe_unused]] void QLineEdit_inputRejected_connect(void *lineEdit,
-                                                        void *receiver,
-                                                        void *context,
-                                                        void (*slot_ptr)(void*)) {
+                                                      void *receiver,
+                                                      void *context,
+                                                      void (*slot_ptr)(void*)) {
     QObject::connect(
                      static_cast<QLineEdit*>(lineEdit),
                      &QLineEdit::inputRejected,

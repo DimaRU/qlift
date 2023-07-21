@@ -2,17 +2,43 @@ import CQlift
 
 open class QWidget: QObject {
 
-    // MARK: Init/deinit
+    static let functors: [@convention(c) (UnsafeRawPointer, UnsafeMutableRawPointer) -> Void] =
+    [
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().mousePressEvent(event: QMouseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().mousePressEvent(event: QMouseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().mouseDoubleClickEvent(event: QMouseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().mouseMoveEvent(event: QMouseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().mousePressEvent(event: QMouseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().mouseReleaseEvent(event: QMouseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().keyPressEvent(event: QKeyEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().keyReleaseEvent(event: QKeyEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().actionEvent(event: QActionEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().changeEvent(event: QEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().closeEvent(event: QCloseEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().contextMenuEvent(event: QContextMenuEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().enterEvent(event: QEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().focusInEvent(event: QFocusEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().focusOutEvent(event: QFocusEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().hideEvent(event: QHideEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().leaveEvent(event: QEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().moveEvent(event: QMoveEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().paintEvent(event: QPaintEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().resizeEvent(event: QResizeEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().showEvent(event: QShowEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().tabletEvent(event: QTabletEvent(ptr: $1)) },
+        { Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().wheelEvent(event: QWheelEvent(ptr: $1)) },
+    ]
 
+            
+    // MARK: Init/deinit
     public init(parent: QWidget? = nil, flags: Qt.WindowFlags = .Widget) {
         super.init(ptr: QWidget_new(parent?.ptr, flags.rawValue))
 
         let rawSelf = Unmanaged.passUnretained(self).toOpaque()
         QWidget_saveSwiftObject(ptr, rawSelf)
 
-        QWidget_sizeHint_Override(ptr) { context in
-            let _self = Unmanaged<QWidget>.fromOpaque(context).takeUnretainedValue()
-            return _self.sizeHint.ptr
+        QWidget_sizeHint_Override(ptr) {
+            Unmanaged<QWidget>.fromOpaque($0).takeUnretainedValue().sizeHint.ptr
         }
 
         QWidget_setEventFunctor(ptr) { context, eventType, event in

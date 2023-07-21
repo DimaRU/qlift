@@ -23,7 +23,8 @@
         &QAbstractButton::clicked,
         static_cast<const QObject *>(receiver),
         [context, slot_ptr](bool checked) { (*slot_ptr)(context, checked); },
-        static_cast<Qt::ConnectionType>(type) );
+        static_cast<Qt::ConnectionType>(type)
+    );
 }
 
 

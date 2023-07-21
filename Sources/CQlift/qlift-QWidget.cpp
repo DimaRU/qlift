@@ -32,8 +32,7 @@
 
 [[maybe_unused]] void *QWidget_geometry(void *widget) {
     auto stackRect = static_cast<QWidget *>(widget)->geometry();
-    return static_cast<void *>(new QRect{
-        stackRect.x(), stackRect.y(), stackRect.width(), stackRect.height()});
+    return static_cast<void *>(new QRect{ stackRect });
 }
 
 [[maybe_unused]] void QWidget_setGeometry(void *widget, void *rect) {
@@ -92,14 +91,12 @@
 
 [[maybe_unused]] void *QWidget_rect(void *widget) {
     auto stackRect = static_cast<QWidget *>(widget)->rect();
-    return static_cast<void *>(new QRect{
-        stackRect.x(), stackRect.y(), stackRect.width(), stackRect.height()});
+    return static_cast<void *>(new QRect{ stackRect });
 }
 
 [[maybe_unused]] void *QWidget_size(void *widget) {
     auto stackSize = static_cast<QWidget *>(widget)->size();
-    return static_cast<void *>(
-        new QSize{stackSize.width(), stackSize.height()});
+    return static_cast<void *>(new QSize{ stackSize });
 }
 
 [[maybe_unused]] void QWidget_adjustSize(void *widget) {
@@ -113,15 +110,14 @@
 }
 [[maybe_unused]] void *QWidget_frameGeometry(void *widget) {
     auto stackRect = static_cast<QWidget *>(widget)->frameGeometry();
-    return static_cast<void *>(new QRect{
-        stackRect.x(), stackRect.y(), stackRect.width(), stackRect.height()});
+    return static_cast<void *>(new QRect{ stackRect });
 }
 [[maybe_unused]] bool QWidget_isWindow(void *widget) {
     return static_cast<QWidget *>(widget)->isWindow();
 }
 [[maybe_unused]] void *QWidget_maximumSize(void *widget) {
     auto stackSize = static_cast<QWidget *>(widget)->maximumSize();
-    return new QSize{stackSize.width(), stackSize.height()};
+    return new QSize{ stackSize };
 }
 [[maybe_unused]] void QWidget_setMaximumSize(void *widget, void *size) {
     if (size != nullptr) {
@@ -146,10 +142,8 @@
     static_cast<QWidget*>(widget)->setGraphicsEffect(static_cast<QGraphicsEffect *>(effect));
 }
 [[maybe_unused]] void *QWidget_sizePolicy(void *widget) {
-    auto stackPolicy = static_cast<QWidget *>(widget)->sizePolicy();
-    return static_cast<void *>(new QSizePolicy{stackPolicy.horizontalPolicy(),
-                                               stackPolicy.verticalPolicy(),
-                                               stackPolicy.controlType()});
+    auto sizePolicy = static_cast<QWidget *>(widget)->sizePolicy();
+    return static_cast<void *>(new QSizePolicy{sizePolicy});
 }
 [[maybe_unused]] void QWidget_setSizePolicy(void *widget, void *policy) {
     static_cast<QWidget *>(widget)->setSizePolicy(
@@ -165,7 +159,7 @@
 }
 [[maybe_unused]] void *QWidget_sizeHint(void *widget) {
     auto stackSize = static_cast<QliftWidget *>(widget)->sizeHintSuper();
-    return static_cast<void *>(new QSize{stackSize.width(), stackSize.height()});
+    return static_cast<void *>(new QSize{stackSize});
 }
 [[maybe_unused]] void QWidget_setAutoFillBackground(void *widget, bool enabled) {
     static_cast<QWidget *>(widget)->setAutoFillBackground(enabled);
@@ -214,27 +208,27 @@
 }
 [[maybe_unused]] void *QWidget_mapToGlobal(void *widget, void *point) {
     auto mapPoint = static_cast<QWidget *>(widget)->mapToGlobal(*static_cast<QPoint *>(point));
-    return static_cast<void *>(new QPoint{mapPoint.x(), mapPoint.y()});
+    return static_cast<void *>(new QPoint{mapPoint});
 }
 [[maybe_unused]] void *QWidget_mapFromGlobal(void *widget, void *point) {
     auto mapPoint = static_cast<QWidget *>(widget)->mapFromGlobal(*static_cast<QPoint *>(point));
-    return static_cast<void *>(new QPoint{mapPoint.x(), mapPoint.y()});
+    return static_cast<void *>(new QPoint{mapPoint});
 }
 [[maybe_unused]] void *QWidget_mapToParent(void *widget, void *point) {
     auto mapPoint = static_cast<QWidget *>(widget)->mapToParent(*static_cast<QPoint *>(point));
-    return static_cast<void *>(new QPoint{mapPoint.x(), mapPoint.y()});
+    return static_cast<void *>(new QPoint{mapPoint});
 }
 [[maybe_unused]] void *QWidget_mapFromParent(void *widget, void *point) {
     auto mapPoint = static_cast<QWidget *>(widget)->mapFromParent(*static_cast<QPoint *>(point));
-    return static_cast<void *>(new QPoint{mapPoint.x(), mapPoint.y()});
+    return static_cast<void *>(new QPoint{mapPoint});
 }
 [[maybe_unused]] void *QWidget_mapTo(void *widget, void *parentWidget, void *point) {
     auto mapPoint = static_cast<QWidget *>(widget)->mapTo(static_cast<QWidget *>(parentWidget), *static_cast<QPoint *>(point));
-    return static_cast<void *>(new QPoint{mapPoint.x(), mapPoint.y()});
+    return static_cast<void *>(new QPoint{mapPoint});
 }
 [[maybe_unused]] void *QWidget_mapFrom(void *widget, void *parentWidget, void *point) {
     auto mapPoint = static_cast<QWidget *>(widget)->mapFrom(static_cast<QWidget *>(parentWidget), *static_cast<QPoint *>(point));
-    return static_cast<void *>(new QPoint{mapPoint.x(), mapPoint.y()});
+    return static_cast<void *>(new QPoint{mapPoint});
 }
 [[maybe_unused]] void QWidget_updateXY(void * widget, int x, int y, int w, int h) {
     static_cast<QWidget *>(widget)->update(x, y, w, h);
@@ -604,8 +598,8 @@ W_OBJECT_IMPL(QliftWidget)
 
 [[maybe_unused]] QSize QliftWidget::sizeHint() const {
     if (swiftObject != nullptr) {
-        auto *size = static_cast<QSize *>((*m_sizeHint_Functor)(swiftObject));
-        return QSize{size->width(), size->height()};
+        auto size = static_cast<QSize *>((*m_sizeHint_Functor)(swiftObject));
+        return QSize{ *size };
     }
     return QWidget::sizeHint();
 }
