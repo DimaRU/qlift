@@ -16,7 +16,7 @@ LIBRARY_API void *QAbstractButton_clicked_connect(const void *abstractButton,
                                                   void *context,
                                                   unsigned int type,
                                                   const void (*slot_ptr)(const void *, bool));
-LIBRARY_API void QAbstractButton_clicked_disconnect(void *abstractButton, void *receiver);
+LIBRARY_API void QAbstractButton_clicked_disconnect(void *abstractButton, void * _Nullable receiver);
 
 LIBRARY_API void QAbstractButton_toggled_connect(void *abstractButton, void *receiver, void (*slot_ptr)(void *, bool));
 LIBRARY_API void QAbstractButton_pressed_connect(void *abstractButton, void *receiver, void (*slot_ptr)(void *));

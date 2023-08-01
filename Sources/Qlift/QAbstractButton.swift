@@ -66,6 +66,11 @@ open class QAbstractButton: QWidget {
         init(ptr: UnsafeMutableRawPointer) {
             self.ptr = ptr
         }
+        deinit {
+            if callback != nil {
+                QAbstractButton_clicked_disconnect(self.ptr, nil)
+            }
+        }
         
         public func connect<T:QObject, R: Any>(receiver: QObject? = nil, type: Qt.ConnectionType = .AutoConnection, target: T, to slot: @escaping SlotVoid<T, R>) {
             callback = { [weak target] _ in
@@ -81,6 +86,7 @@ open class QAbstractButton: QWidget {
         
         public func disconnect(receiver: QObject? = nil) {
             QAbstractButton_clicked_disconnect(self.ptr, receiver?.ptr ?? self.ptr)
+            callback = nil
         }
     }
     

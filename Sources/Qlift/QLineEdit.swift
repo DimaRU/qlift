@@ -30,7 +30,6 @@ open class QLineEdit: QWidget {
     }
     
     override func swiftCleanup() {
-        super.swiftCleanup()
         textChangedCallback = nil
         textEditedCallback = nil
         returnPressedCallback = nil
