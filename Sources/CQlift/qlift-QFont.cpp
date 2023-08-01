@@ -177,3 +177,9 @@
 [[maybe_unused]] void QFont_setWordSpacing(void *font, double spacing) {
     static_cast<QFont *>(font)->setWordSpacing(spacing);
 }
+[[maybe_unused]] bool QFont_eq_(void *qfont, void *arg0) {
+    return (*static_cast<QFont *>(qfont)) < (*static_cast<const QFont *>(arg0));
+}
+[[maybe_unused]] bool QFont_lt_(void *qfont, void *arg0) {
+    return *static_cast<QFont *>(qfont) < *static_cast<const QFont *>(arg0);
+}

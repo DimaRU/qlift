@@ -7,7 +7,7 @@
 
 import CQlift
 
-public class QFont {
+public class QFont: Comparable {
     public var ptr: UnsafeMutableRawPointer!
 
     init(ptr: UnsafeMutableRawPointer) {
@@ -126,18 +126,12 @@ public class QFont {
     }
     
     public var family: String {
-        get {
-            let s = QFont_family(ptr)
-            return String(utf16CodeUnits: s.utf16, count: Int(s.size))
-        }
+        get { QFont_family(ptr).string }
         set { QFont_setFamily(ptr, newValue)}
     }
     
     public var styleName: String {
-        get {
-            let s = QFont_styleName(ptr)
-            return String(utf16CodeUnits: s.utf16, count: Int(s.size))
-        }
+        get { QFont_styleName(ptr).string }
         set { QFont_setStyleName(ptr, newValue)}
     }
 
@@ -243,11 +237,19 @@ public class QFont {
     }
 
     public func toString() -> String {
-        let s = QFont_toString(ptr)
-        return String(utf16CodeUnits: s.utf16, count: Int(s.size))
+        QFont_toString(ptr).string
     }
 
     public func fromString(description: String) {
         QFont_fromString(ptr, description)
     }
+    
+    public static func == (lhs: QFont, rhs: QFont) -> Bool {
+        QFont_eq_(lhs.ptr, rhs.ptr)
+    }
+
+    public static func < (lhs: QFont, rhs: QFont) -> Bool {
+        QFont_lt_(lhs.ptr, rhs.ptr)
+    }
+
 }

@@ -68,6 +68,8 @@ LIBRARY_API void QFont_setStyleStrategy(void *font, int strategy);
 LIBRARY_API void QFont_setUnderline(void *font, bool enable);
 LIBRARY_API void QFont_setWeight(void *font, int weight);
 LIBRARY_API void QFont_setWordSpacing(void *font, double spacing);
+LIBRARY_API bool QFont_eq_(void *qfont, void *arg0);
+LIBRARY_API bool QFont_lt_(void *qfont, void *arg0);
 
 #ifdef __cplusplus
 }
