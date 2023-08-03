@@ -59,6 +59,7 @@ open class QAbstractButton: QWidget {
         }
     }
 
+    public lazy var clicked = Clicked(ptr: self.ptr)
     public class Clicked {
         let ptr: UnsafeMutableRawPointer
         var callback: ((Bool) -> Void)?
@@ -72,15 +73,16 @@ open class QAbstractButton: QWidget {
             }
         }
         
-        public func connect<T:QObject, R: Any>(receiver: QObject? = nil, type: Qt.ConnectionType = .AutoConnection, target: T, to slot: @escaping SlotVoid<T, R>) {
-            callback = { [weak target] _ in
-                if let target { _ = slot(target)() }
+        public func connect<T:QObject, R: Any>(receiver: QObject? = nil, type: Qt.ConnectionType = .AutoConnection, target: T, to slot: @escaping (T) -> (_ checked: Bool) -> R) {
+            callback = { [weak target] in
+                if let target { _ = slot(target)($0) }
             }
 
-            let rawSelf = Unmanaged.passUnretained(self).toOpaque()
-            QAbstractButton_clicked_connect(self.ptr, receiver?.ptr ?? self.ptr, rawSelf, type.rawValue) { raw, checked in
-                let _self = Unmanaged<Clicked>.fromOpaque(raw).takeUnretainedValue()
-                _self.callback?(checked)
+            QAbstractButton_clicked_connect(self.ptr,
+                                            receiver?.ptr ?? self.ptr,
+                                            Unmanaged.passUnretained(self).toOpaque(),
+                                            type.rawValue) {
+                Unmanaged<Clicked>.fromOpaque($0).takeUnretainedValue().callback?($1)
             }
         }
         
