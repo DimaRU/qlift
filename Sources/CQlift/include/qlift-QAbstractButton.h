@@ -11,16 +11,14 @@ extern "C" {
 LIBRARY_API CQString QAbstractButton_text(void *abstractButton);
 LIBRARY_API void QAbstractButton_setText(void *abstractButton, const char *text);
 #pragma clang assume_nonnull begin
-LIBRARY_API void *QAbstractButton_clicked_connect(const void *abstractButton,
-                                                  const void *receiver,
-                                                  void *context,
-                                                  unsigned int type,
-                                                  const void (*slot_ptr)(const void *, bool));
-LIBRARY_API void QAbstractButton_clicked_disconnect(void *abstractButton, void * _Nullable receiver);
-
-LIBRARY_API void QAbstractButton_toggled_connect(void *abstractButton, void *receiver, void (*slot_ptr)(void *, bool));
-LIBRARY_API void QAbstractButton_pressed_connect(void *abstractButton, void *receiver, void (*slot_ptr)(void *));
-LIBRARY_API void QAbstractButton_released_connect(void *abstractButton, void *receiver, void (*slot_ptr)(void *));
+LIBRARY_API void QAbstractButton_pressed_connect(void *qabstractbutton, void *receiver, void *context, unsigned int type, void (*slot_ptr)(void *));
+LIBRARY_API void* QAbstractButton_pressed_disconnect(void *qabstractbutton, void * _Nullable receiver);
+LIBRARY_API void QAbstractButton_released_connect(void *qabstractbutton, void *receiver, void *context, unsigned int type, void (*slot_ptr)(void *));
+LIBRARY_API void* QAbstractButton_released_disconnect(void *qabstractbutton, void * _Nullable receiver);
+LIBRARY_API void QAbstractButton_clicked_connect(void *qabstractbutton, void *receiver, void *context, unsigned int type, void (*slot_ptr)(void *, bool));
+LIBRARY_API void* QAbstractButton_clicked_disconnect(void *qabstractbutton, void * _Nullable receiver);
+LIBRARY_API void QAbstractButton_toggled_connect(void *qabstractbutton, void *receiver, void *context, unsigned int type, void (*slot_ptr)(void *, bool));
+LIBRARY_API void* QAbstractButton_toggled_disconnect(void *qabstractbutton, void * _Nullable receiver);
 #pragma clang assume_nonnull end
 
 LIBRARY_API void QAbstractButton_setIcon(void *abstractButton, void *icon);
